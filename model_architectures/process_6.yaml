@@ -1,0 +1,57 @@
+class_mode: categorical
+layers:
+- cache_enabled: true
+  concat_axis: -1
+  custom_name: merge
+  dot_axes: -1
+  layers:
+  - layers:
+    - activation: tanh
+      cache_enabled: true
+      custom_name: lstm
+      forget_bias_init: one
+      go_backwards: false
+      init: he_normal
+      inner_activation: hard_sigmoid
+      inner_init: orthogonal
+      input_dim: 20
+      input_length: null
+      input_shape: !!python/tuple [29, 20]
+      name: LSTM
+      output_dim: 62
+      return_sequences: false
+      stateful: false
+      trainable: true
+    - {cache_enabled: true, custom_name: dropout, name: Dropout, p: 0.2, trainable: true}
+    name: Sequential
+  - layers:
+    - activation: tanh
+      cache_enabled: true
+      custom_name: lstm
+      forget_bias_init: one
+      go_backwards: true
+      init: he_normal
+      inner_activation: hard_sigmoid
+      inner_init: orthogonal
+      input_dim: 20
+      input_length: null
+      input_shape: !!python/tuple [29, 20]
+      name: LSTM
+      output_dim: 62
+      return_sequences: false
+      stateful: false
+      trainable: true
+    - {cache_enabled: true, custom_name: dropout, name: Dropout, p: 0.2, trainable: true}
+    name: Sequential
+  mode: sum
+  name: Merge
+  trainable: true
+- {W_constraint: null, W_regularizer: null, activation: linear, activity_regularizer: null,
+  b_constraint: null, b_regularizer: null, cache_enabled: true, custom_name: dense,
+  init: glorot_uniform, input_dim: null, name: Dense, output_dim: 20, trainable: true}
+- {activation: softmax, cache_enabled: true, custom_name: activation, name: Activation,
+  trainable: true}
+loss: categorical_crossentropy
+name: Sequential
+optimizer: {beta_1: 0.8999999761581421, beta_2: 0.9990000128746033, epsilon: 1.0e-08,
+  lr: 0.0010000000474974513, name: Adam}
